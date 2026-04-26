@@ -1,7 +1,13 @@
-const CACHE = 'nhac-be-v1';
+const CACHE = 'nhac-be-v2';
 const ASSETS = [
-  './Prototype.html',
+  '/be-list/Prototype.html',
+  '/be-list/manifest.json',
+  '/be-list/icon-192.png',
+  '/be-list/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap',
+  'https://unpkg.com/react@18.3.1/umd/react.development.js',
+  'https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js',
+  'https://unpkg.com/@babel/standalone@7.29.0/babel.min.js',
 ];
 
 self.addEventListener('install', e => {
