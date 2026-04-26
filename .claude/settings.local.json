@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/8FLHNcVtUF_y2iwPRiUoGg?open_file=Prototype.html\")",
+      "Bash(gunzip)",
+      "Bash(python3 -c ' *)",
+      "Bash(pip install *)",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \" import sys, tarfile, io data = sys.stdin.buffer.read\\(\\) t = tarfile.open\\(fileobj=io.BytesIO\\(data\\)\\) for member in t.getmembers\\(\\): if 'Prototype.html' in member.name: f = t.extractfile\\(member\\) content = f.read\\(\\).decode\\('utf-8'\\) print\\(content\\) break \")"
+    ]
+  }
+}
