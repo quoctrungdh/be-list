@@ -2,7 +2,7 @@
   "name": "Nhạc của bé",
   "short_name": "Nhạc bé",
   "description": "Duyệt và yêu thích danh sách nhạc cho bé",
-  "start_url": "/index.html",
+  "start_url": "/be-list/",
   "display": "standalone",
   "background_color": "#faf9f6",
   "theme_color": "#ffffff",
