@@ -3,131 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Nhạc của bé</title>
-<meta name="theme-color" content="#ffffff">
+<title>Nhạc của bé 🎵</title>
+<meta name="theme-color" content="#10B981">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Nhạc của bé">
+<meta name="apple-mobile-web-app-title" content="Nhạc bé">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; background: #faf9f6; font-family: 'Nunito', sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --p:       #10B981;
+  --p2:      #84CC16;
+  --p-sh:    rgba(16,185,129,.4);
+  --p-lt:    rgba(16,185,129,.12);
+  --body-bg: #CCEEDD;
+  --cream:   #F0FFF8;
+  --text:    #1a2e1e;
+  --muted:   #6B9A7A;
+  --border:  #C8E8D4;
+  --white:   #FFFFFF;
+}
+
+html, body {
+  height: 100%; background: var(--body-bg);
+  font-family: 'Nunito', sans-serif;
+  transition: background .4s;
+}
+
 #root { height: 100%; display: flex; flex-direction: column; }
 
 .app {
-  height: 100%;
-  display: flex; flex-direction: column;
-  background: #faf9f6;
-  max-width: 600px;
-  margin: 0 auto;
-  width: 100%;
+  height: 100%; display: flex; flex-direction: column;
+  background: var(--cream);
+  max-width: 600px; margin: 0 auto; width: 100%;
 }
-.screen { flex: 1; overflow: hidden; display: flex; flex-direction: column; background: #faf9f6; }
-.screen-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.screen-scroll::-webkit-scrollbar { display: none; }
+.screen { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--cream); }
+.scroll::-webkit-scrollbar { display: none; }
 
 @media (min-width: 600px) {
-  body { background: #e8e4de; display: flex; align-items: stretch; justify-content: center; }
-  #root { width: 600px; box-shadow: 0 0 40px rgba(0,0,0,.15); }
+  body { display: flex; align-items: stretch; justify-content: center; }
+  #root { width: 600px; box-shadow: 0 0 60px rgba(0,0,0,.18); }
 }
 
+/* ── Header ── */
+.hdr {
+  flex-shrink: 0; background: var(--white);
+  padding: 12px 20px 12px; border-bottom: 1px solid var(--border);
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+.hdr-row { display: flex; align-items: center; justify-content: space-between; }
+.hdr-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 26px; font-weight: 700; color: var(--p); line-height: 1;
+}
+.hdr-sub { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.hdr-badge {
+  background: var(--p-lt); color: var(--p);
+  font-size: 11px; font-weight: 700;
+  border-radius: 20px; padding: 5px 12px; border: 1.5px solid var(--p);
+}
+.hdr-back {
+  font-size: 13px; font-weight: 700; color: var(--p);
+  cursor: pointer; margin-bottom: 4px; display: inline-block;
+}
+
+/* ── Search ── */
+.hdr-search { margin-top: 10px; position: relative; }
+.hdr-search-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 15px; pointer-events: none; }
+.hdr-search-inp {
+  width: 100%; background: var(--cream);
+  border: 2px solid var(--border); border-radius: 16px;
+  padding: 10px 14px 10px 40px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--text); outline: none; transition: border-color .15s;
+}
+.hdr-search-inp:focus { border-color: var(--p); }
+.hdr-search-inp::placeholder { color: var(--muted); opacity: .7; }
+
+/* ── Song row ── */
+.srow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 18px; cursor: pointer; transition: background .1s;
+  background: var(--white); border-bottom: 1px solid var(--border);
+}
+.srow:active { background: var(--p-lt); }
+.srow-num { font-size: 11px; font-weight: 600; color: var(--muted); width: 34px; text-align: right; flex-shrink: 0; opacity: .7; }
+.srow-info { flex: 1; min-width: 0; }
+.srow-title { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Fredoka', sans-serif; letter-spacing: .01em; }
+.heart { font-size: 22px; cursor: pointer; flex-shrink: 0; transition: transform .12s; padding: 2px 4px; }
+.heart:active { transform: scale(1.4); }
+@keyframes heartPop { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 70%{transform:scale(.9)} 100%{transform:scale(1)} }
+.heart.pop { animation: heartPop .25s ease; }
+
+/* ── Section label ── */
+.sec-hd { padding: 12px 20px 5px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; background: var(--cream); font-family: 'Fredoka', sans-serif; }
+
+/* ── Topic grid ── */
+.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 18px 20px; }
+.tcard {
+  border-radius: 18px; padding: 16px 14px 13px;
+  cursor: pointer; transition: transform .13s;
+  position: relative; overflow: hidden;
+  border: 1.5px solid rgba(0,0,0,.05);
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+.tcard:active { transform: scale(.96); }
+.tcard-deco { position: absolute; right: -8px; top: -6px; font-size: 44px; opacity: .18; transform: rotate(12deg); pointer-events: none; }
+.tcard-em { font-size: 28px; margin-bottom: 6px; display: block; position: relative; }
+.tcard-name { font-family: 'Fredoka', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.25; position: relative; }
+.tcard-cnt { font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 2px; position: relative; }
+
+/* ── Shuffle button ── */
+.shuf {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, var(--p) 0%, var(--p2) 100%);
+  border: none; border-radius: 20px;
+  padding: 15px 20px; margin: 14px 20px 4px;
+  font-family: 'Fredoka', sans-serif; font-size: 17px; font-weight: 600; color: #fff;
+  cursor: pointer; width: calc(100% - 40px);
+  box-shadow: 0 5px 18px var(--p-sh);
+  transition: transform .1s; letter-spacing: .02em;
+}
+.shuf:active { transform: scale(.97); }
+
+/* ── Tab bar ── */
 .tabbar {
-  flex-shrink: 0;
-  background: #fff;
-  border-top: 1px solid #ece9e3;
+  flex-shrink: 0; background: var(--white);
+  border-top: 2px solid var(--border);
   display: flex; align-items: stretch;
   padding-bottom: max(8px, env(safe-area-inset-bottom));
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  box-shadow: 0 -4px 24px rgba(0,0,0,.07);
 }
-.tab-item {
+.tab {
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; cursor: pointer; transition: all .15s;
-  font-size: 10px; font-weight: 600; color: #b0a898; letter-spacing: .02em;
-  -webkit-tap-highlight-color: transparent;
+  gap: 1px; cursor: pointer; color: var(--muted); opacity: .6;
+  transition: color .15s, opacity .15s;
+  font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .01em;
 }
-.tab-item.active { color: #1e2d40; }
-.tab-icon { font-size: 22px; transition: transform .15s; }
-.tab-item.active .tab-icon { transform: scale(1.1); }
-
-.header {
-  padding: 16px 20px 12px;
-  background: #fff;
-  border-bottom: 1px solid #ece9e3;
-  flex-shrink: 0;
+.tab.on { color: var(--p); opacity: 1; }
+.tab-pip {
+  width: 46px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 14px; font-size: 24px;
+  transition: background .2s, transform .15s;
 }
-.header-title { font-size: 22px; font-weight: 800; color: #1e2d40; }
-.header-sub { font-size: 12px; color: #b0a898; margin-top: 1px; }
+.tab.on .tab-pip { background: var(--p-lt); transform: scale(1.1); }
 
-.search-wrap { padding: 10px 20px; background: #fff; border-bottom: 1px solid #ece9e3; flex-shrink: 0; }
-.search-input {
-  width: 100%; background: #f2f0eb; border: none; outline: none;
-  border-radius: 12px; padding: 10px 14px 10px 38px;
-  font-family: 'Nunito', sans-serif; font-size: 14px; color: #1e2d40;
-}
-.search-wrap-inner { position: relative; }
-.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; color: #b0a898; pointer-events: none; }
+/* ── Empty state ── */
+.empty { text-align: center; padding: 52px 32px; color: var(--muted); background: var(--cream); }
+.empty-ic { font-size: 64px; margin-bottom: 14px; }
+.empty p { font-size: 15px; font-weight: 600; line-height: 1.8; font-family: 'Fredoka', sans-serif; }
 
-.song-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 20px;
-  border-bottom: 1px solid #f0ede7;
-  cursor: pointer; transition: background .1s;
-  -webkit-tap-highlight-color: transparent;
-}
-.song-row:active { background: #f5f2ec; }
-.song-num { font-size: 11px; color: #c8c0b4; font-weight: 600; width: 36px; text-align: right; flex-shrink: 0; }
-.song-info { flex: 1; min-width: 0; }
-.song-title { font-size: 14px; font-weight: 600; color: #1e2d40; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.song-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #8a7f72; background: #ece9e3; border-radius: 5px; padding: 1px 6px; margin-top: 3px; }
-.heart-btn { font-size: 20px; cursor: pointer; padding: 4px; flex-shrink: 0; transition: transform .12s; -webkit-tap-highlight-color: transparent; }
-.heart-btn:active { transform: scale(1.3); }
-
-.section-hd { padding: 14px 20px 6px; font-size: 11px; font-weight: 800; color: #b0a898; text-transform: uppercase; letter-spacing: .08em; }
-
-.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 20px; }
-.topic-card {
-  border-radius: 16px; padding: 16px 14px 14px;
-  cursor: pointer; transition: transform .12s, box-shadow .12s;
-  -webkit-tap-highlight-color: transparent;
-}
-.topic-card:active { transform: scale(.97); }
-.topic-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
-.topic-name { font-size: 13px; font-weight: 800; color: #1e2d40; line-height: 1.3; }
-.topic-count { font-size: 11px; color: #8a7f72; margin-top: 2px; font-weight: 600; }
-
-.shuffle-btn {
-  display: flex; align-items: center; gap: 8px; justify-content: center;
-  background: #f5a623; border: none; border-radius: 14px;
-  padding: 12px 20px; font-family: 'Nunito', sans-serif;
-  font-size: 14px; font-weight: 800; color: #fff; cursor: pointer;
-  width: calc(100% - 40px); margin: 14px 20px 2px;
-  box-shadow: 0 4px 12px rgba(245,166,35,.35);
-  transition: transform .1s, box-shadow .1s;
-  -webkit-tap-highlight-color: transparent;
-}
-.shuffle-btn:active { transform: scale(.97); box-shadow: 0 2px 6px rgba(245,166,35,.35); }
-
-.back-btn { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: #5a8fc2; cursor: pointer; padding: 4px 0; -webkit-tap-highlight-color: transparent; }
-
-.empty-state { text-align: center; padding: 48px 32px; color: #c8c0b4; }
-.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; font-weight: 600; line-height: 1.6; }
-
+/* ── Voice hint ── */
 .voice-hint {
-  margin: 12px 20px; border: 1.5px dashed #e8a090; border-radius: 14px;
-  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
-  background: #fff8f6; color: #c86050; font-size: 13px; font-weight: 600;
+  margin: 12px 20px 6px; border: 2.5px dashed var(--p); border-radius: 18px;
+  padding: 13px 16px; display: flex; align-items: center; gap: 10px;
+  background: var(--p-lt); font-size: 14px; font-weight: 700; color: var(--p);
+  font-family: 'Fredoka', sans-serif; letter-spacing: .02em;
 }
-.voice-badge { font-size: 10px; font-weight: 700; background: #f5d6cf; color: #c86050; border-radius: 20px; padding: 2px 8px; margin-left: auto; flex-shrink: 0; }
+.voice-soon { margin-left: auto; flex-shrink: 0; font-size: 10px; font-weight: 800; background: var(--p); color: #fff; border-radius: 20px; padding: 3px 10px; }
 
-.history-chip { display: inline-flex; align-items: center; gap: 5px; border: 1.5px solid #ddd8cf; border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: #888; margin: 3px 4px 3px 0; cursor: pointer; background: #fff; -webkit-tap-highlight-color: transparent; }
-.history-chip:active { background: #f5f2ec; }
+/* ── History chips ── */
+.hchips { padding: 4px 20px 14px; display: flex; flex-wrap: wrap; gap: 6px; background: var(--cream); }
+.hchip { display: inline-flex; align-items: center; gap: 5px; border: 2px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; background: var(--white); transition: border-color .12s; }
+.hchip:active { border-color: var(--p); }
 </style>
 </head>
 <body>
@@ -1602,84 +1648,81 @@ const TOPICS = [
   {id:'CoCoMelon', emoji:'🍉', color:'#fff5ee', count:24}
 ];
 
-function HeartBtn({ id, favs, toggle }) {
+/* ══════ HEART ══════ */
+function Heart({ id, favs, toggle }) {
+  const [pop, setPop] = React.useState(false);
   const on = favs.has(id);
-  return (
-    <span className="heart-btn" onClick={e => { e.stopPropagation(); toggle(id); }}>
-      {on ? '❤️' : '🤍'}
-    </span>
-  );
+  const click = e => { e.stopPropagation(); toggle(id); setPop(true); setTimeout(()=>setPop(false),300); };
+  return <span className={`heart${pop?' pop':''}`} onClick={click}>{on?'❤️':'🤍'}</span>;
 }
 
+/* ══════ SONG ROW ══════ */
 function SongRow({ song, favs, toggleFav }) {
   return (
-    <div className="song-row">
-      <span className="song-num">#{song.id}</span>
-      <div className="song-info">
-        <div className="song-title" title={song.title}>{song.title}</div>
-        {song.topic && <span className="song-badge">{song.topic}</span>}
+    <div className="srow">
+      <span className="srow-num">#{song.id}</span>
+      <div className="srow-info">
+        <div className="srow-title" title={song.title}>{song.title}</div>
       </div>
-      <HeartBtn id={song.id} favs={favs} toggle={toggleFav} />
+      <Heart id={song.id} favs={favs} toggle={toggleFav} />
     </div>
   );
 }
 
+/* ══════ TAB: LIST ══════ */
 function TabList({ favs, toggleFav }) {
-  const [query, setQuery] = React.useState('');
+  const [q, setQ] = React.useState('');
 
-  const filtered = React.useMemo(() => {
-    if (!query.trim()) return ALL_SONGS;
-    const q = query.toLowerCase();
+  const songs = React.useMemo(() => {
+    if (!q.trim()) return ALL_SONGS;
+    const lq = q.toLowerCase();
     return ALL_SONGS.filter(s =>
-      s.title.toLowerCase().includes(q) ||
-      String(s.id).includes(q) ||
-      s.topic.toLowerCase().includes(q)
+      s.title.toLowerCase().includes(lq) ||
+      String(s.id).includes(lq) ||
+      s.topic.toLowerCase().includes(lq)
     );
-  }, [query]);
+  }, [q]);
 
   return (
     <>
-      <div className="header">
-        <div className="header-title">Danh sách</div>
-        <div className="header-sub">{ALL_SONGS.length} bài · cuộn để duyệt</div>
-      </div>
-      <div className="search-wrap">
-        <div className="search-wrap-inner">
-          <span className="search-icon">🔍</span>
-          <input className="search-input" placeholder="Tìm số bài, tên, chủ đề…" value={query} onChange={e => setQuery(e.target.value)} />
+      <div className="hdr">
+        <div className="hdr-row">
+          <div>
+            <div className="hdr-title">🎵 Danh sách</div>
+            <div className="hdr-sub">{ALL_SONGS.length} bài</div>
+          </div>
+          <span className="hdr-badge">#{ALL_SONGS[0].id}–#{ALL_SONGS[ALL_SONGS.length-1].id}</span>
+        </div>
+        <div className="hdr-search">
+          <span className="hdr-search-ico">🔍</span>
+          <input className="hdr-search-inp" placeholder="Tìm số bài, tên, chủ đề…" value={q} onChange={e=>setQ(e.target.value)} />
         </div>
       </div>
-      <div className="screen-scroll">
-        {filtered.length === 0 && (
-          <div className="empty-state">
-            <div className="empty-icon">🔍</div>
-            <p>Không tìm thấy bài nào<br/>phù hợp với từ khoá này</p>
-          </div>
-        )}
-        {query.trim() && filtered.length > 0 && (
-          <div className="section-hd">{filtered.length} kết quả</div>
-        )}
-        {filtered.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
+      <div className="scroll">
+        {songs.length === 0 && <div className="empty"><div className="empty-ic">🔍</div><p>Không tìm thấy bài nào<br/>phù hợp với từ khoá này</p></div>}
+        {q.trim() && songs.length > 0 && <div className="sec-hd">{songs.length} kết quả</div>}
+        {songs.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
       </div>
     </>
   );
 }
 
+/* ══════ TAB: TOPIC ══════ */
 function TabTopic({ favs, toggleFav }) {
-  const [activeTopic, setActiveTopic] = React.useState(null);
+  const [active, setActive] = React.useState(null);
 
-  if (activeTopic) {
-    const topic = TOPICS.find(t => t.id === activeTopic);
-    const songs = ALL_SONGS.filter(s => s.topic === activeTopic);
+  if (active) {
+    const t = TOPICS.find(x => x.id === active);
+    const songs = ALL_SONGS.filter(s => s.topic === active);
     return (
       <>
-        <div className="header">
-          <div className="back-btn" onClick={() => setActiveTopic(null)}>‹ Chủ đề</div>
-          <div className="header-title">{topic.emoji} {activeTopic}</div>
-          <div className="header-sub">{songs.length} bài</div>
+        <div className="hdr">
+          <span className="hdr-back" onClick={() => setActive(null)}>‹ Chủ đề</span>
+          <div className="hdr-title">{t.emoji} {active}</div>
+          <div className="hdr-sub">{songs.length} bài</div>
         </div>
-        <div className="screen-scroll">
-          <button className="shuffle-btn" onClick={() => {}}>🔀 Phát ngẫu nhiên chủ đề này</button>
+        <div className="scroll">
+          <button className="shuf">🔀 Phát ngẫu nhiên chủ đề này</button>
           {songs.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
         </div>
       </>
@@ -1688,17 +1731,18 @@ function TabTopic({ favs, toggleFav }) {
 
   return (
     <>
-      <div className="header">
-        <div className="header-title">Chủ đề</div>
-        <div className="header-sub">{TOPICS.length} chủ đề</div>
+      <div className="hdr">
+        <div className="hdr-title">🗂 Chủ đề</div>
+        <div className="hdr-sub">{TOPICS.length} chủ đề</div>
       </div>
-      <div className="screen-scroll">
+      <div className="scroll">
         <div className="topic-grid">
           {TOPICS.map(t => (
-            <div key={t.id} className="topic-card" style={{ background: t.color }} onClick={() => setActiveTopic(t.id)}>
-              <span className="topic-emoji">{t.emoji}</span>
-              <div className="topic-name">{t.id}</div>
-              <div className="topic-count">{t.count} bài</div>
+            <div key={t.id} className="tcard" style={{background: t.color}} onClick={() => setActive(t.id)}>
+              <div className="tcard-deco">{t.emoji}</div>
+              <span className="tcard-em">{t.emoji}</span>
+              <div className="tcard-name">{t.id}</div>
+              <div className="tcard-cnt">{t.count} bài</div>
             </div>
           ))}
         </div>
@@ -1707,110 +1751,86 @@ function TabTopic({ favs, toggleFav }) {
   );
 }
 
-const HISTORY_DEFAULT = ['cocomelon', 'peppa', 'sight word', 'fairy tale'];
-
+/* ══════ TAB: SEARCH ══════ */
 function TabSearch({ favs, toggleFav }) {
-  const [query, setQuery] = React.useState('');
-  const [history, setHistory] = React.useState(HISTORY_DEFAULT);
+  const [q, setQ] = React.useState('');
+  const [hist, setHist] = React.useState(['cocomelon', 'peppa', 'sight word', 'fairy tale']);
 
   const results = React.useMemo(() => {
-    if (!query.trim()) return [];
-    const q = query.toLowerCase();
+    if (!q.trim()) return [];
+    const lq = q.toLowerCase();
     return ALL_SONGS.filter(s =>
-      s.title.toLowerCase().includes(q) ||
-      String(s.id).includes(q) ||
-      s.topic.toLowerCase().includes(q)
+      s.title.toLowerCase().includes(lq) ||
+      String(s.id).includes(lq) ||
+      s.topic.toLowerCase().includes(lq)
     );
-  }, [query]);
+  }, [q]);
 
-  const doSearch = (q) => {
-    setQuery(q);
-    if (q.trim() && !history.includes(q.toLowerCase())) {
-      setHistory(h => [q.toLowerCase(), ...h].slice(0, 6));
-    }
+  const pick = v => {
+    setQ(v);
+    if (v.trim() && !hist.includes(v.toLowerCase()))
+      setHist(h => [v.toLowerCase(), ...h].slice(0, 6));
   };
 
   return (
     <>
-      <div className="header">
-        <div className="header-title">Tìm kiếm</div>
-      </div>
-      <div className="search-wrap">
-        <div className="search-wrap-inner">
-          <span className="search-icon">🔍</span>
-          <input
-            className="search-input"
-            placeholder="Tên bài, số thứ tự, chủ đề…"
-            value={query}
-            onChange={e => doSearch(e.target.value)}
-          />
+      <div className="hdr">
+        <div className="hdr-title">🔍 Tìm kiếm</div>
+        <div className="hdr-search">
+          <span className="hdr-search-ico">🔍</span>
+          <input className="hdr-search-inp" placeholder="Tên bài, số thứ tự, chủ đề…" value={q} onChange={e => pick(e.target.value)} />
         </div>
       </div>
-      <div className="screen-scroll">
+      <div className="scroll">
         <div className="voice-hint">
-          <span>🎤</span>
+          <span style={{fontSize:22}}>🎤</span>
           <span>Tìm bằng giọng nói</span>
-          <span className="voice-badge">Sắp có</span>
+          <span className="voice-soon">Sắp có</span>
         </div>
-        {query.trim().length === 0 && (
-          <>
-            <div className="section-hd">Tìm gần đây</div>
-            <div style={{padding:'4px 20px 12px'}}>
-              {history.map(h => (
-                <span key={h} className="history-chip" onClick={() => doSearch(h)}>
-                  🕐 {h}
-                </span>
-              ))}
-            </div>
-          </>
-        )}
-        {query.trim().length > 0 && results.length === 0 && (
-          <div className="empty-state">
-            <div className="empty-icon">😕</div>
-            <p>Không tìm thấy bài nào<br/>với từ khoá "{query}"</p>
-          </div>
-        )}
-        {results.length > 0 && (
-          <>
-            <div className="section-hd">{results.length} kết quả cho "{query}"</div>
-            {results.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
-          </>
-        )}
+        {!q.trim() && (<>
+          <div className="sec-hd">Tìm gần đây</div>
+          <div className="hchips">{hist.map(h => <span key={h} className="hchip" onClick={() => pick(h)}>🕐 {h}</span>)}</div>
+        </>)}
+        {q.trim() && results.length === 0 && <div className="empty"><div className="empty-ic">😕</div><p>Không thấy bài nào<br/>với từ khoá "{q}"</p></div>}
+        {results.length > 0 && <>
+          <div className="sec-hd">{results.length} kết quả cho "{q}"</div>
+          {results.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
+        </>}
       </div>
     </>
   );
 }
 
+/* ══════ TAB: FAV ══════ */
 function TabFav({ favs, toggleFav }) {
-  const favSongs = ALL_SONGS.filter(s => favs.has(s.id));
+  const songs = ALL_SONGS.filter(s => favs.has(s.id));
   return (
     <>
-      <div className="header">
-        <div className="header-title">Yêu thích</div>
-        <div className="header-sub">{favSongs.length} bài đã lưu</div>
-      </div>
-      <div className="screen-scroll">
-        {favSongs.length > 0 && (
-          <button className="shuffle-btn">🔀 Phát ngẫu nhiên yêu thích</button>
-        )}
-        {favSongs.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">🤍</div>
-            <p>Chưa có bài nào<br/>Nhấn 🤍 ở bất kỳ bài nào<br/>để thêm vào đây</p>
+      <div className="hdr">
+        <div className="hdr-row">
+          <div>
+            <div className="hdr-title">❤️ Yêu thích</div>
+            <div className="hdr-sub">{songs.length} bài đã lưu</div>
           </div>
-        ) : (
-          favSongs.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)
-        )}
+          {songs.length > 0 && <span className="hdr-badge">{songs.length}</span>}
+        </div>
+      </div>
+      <div className="scroll">
+        {songs.length > 0 && <button className="shuf">🔀 Phát ngẫu nhiên yêu thích</button>}
+        {songs.length === 0
+          ? <div className="empty"><div className="empty-ic">🤍</div><p>Chưa có bài nào<br/>Nhấn 🤍 ở bất kỳ bài nào<br/>để thêm vào đây</p></div>
+          : songs.map(s => <SongRow key={s.id} song={s} favs={favs} toggleFav={toggleFav} />)}
       </div>
     </>
   );
 }
 
+/* ══════ APP ══════ */
 const TABS = [
-  {id:'list',  label:'Danh sách', icon:'📋'},
-  {id:'topic', label:'Chủ đề',   icon:'🗂'},
-  {id:'search',label:'Tìm',      icon:'🔍'},
-  {id:'fav',   label:'Yêu thích',icon:'❤️'},
+  {id:'list',   label:'Danh sách', ic:'📋'},
+  {id:'topic',  label:'Chủ đề',    ic:'🗂'},
+  {id:'search', label:'Tìm',       ic:'🔍'},
+  {id:'fav',    label:'Yêu thích', ic:'❤️'},
 ];
 
 function App() {
@@ -1838,8 +1858,8 @@ function App() {
       </div>
       <div className="tabbar">
         {TABS.map(t => (
-          <div key={t.id} className={`tab-item${tab===t.id?' active':''}`} onClick={() => setTab(t.id)}>
-            <span className="tab-icon">{t.icon}</span>
+          <div key={t.id} className={`tab${tab===t.id?' on':''}`} onClick={() => setTab(t.id)}>
+            <div className="tab-pip">{t.ic}</div>
             {t.label}
           </div>
         ))}
@@ -1852,7 +1872,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
 }
 </script>
 <div id="root"></div>
