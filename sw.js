@@ -1,27 +1,25 @@
-const CACHE = 'nhac-be-v5';
-const ASSETS = [
+const CACHE = 'nhac-be-v6';
+const LOCAL = [
   '/be-list/',
   '/be-list/index.html',
   '/be-list/manifest.json',
   '/be-list/icon-192.png',
   '/be-list/icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap',
-  'https://unpkg.com/react@18.3.1/umd/react.development.js',
-  'https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js',
-  'https://unpkg.com/@babel/standalone@7.29.0/babel.min.js',
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE)
+      .then(c => Promise.all(LOCAL.map(url => c.add(url).catch(() => {}))))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
