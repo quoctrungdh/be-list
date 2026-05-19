@@ -1663,10 +1663,17 @@ const TOPICS = [
 ];
 
 /* ══════ HEART ══════ */
-function Heart({ id, favs, toggle }) {
+function Heart({ id, title, favs, toggle }) {
   const [pop, setPop] = React.useState(false);
   const on = favs.has(id);
-  const click = e => { e.stopPropagation(); toggle(id); setPop(true); setTimeout(()=>setPop(false),300); };
+  const click = e => {
+    e.stopPropagation();
+    const adding = !on;
+    toggle(id);
+    gtag('event', 'toggle_favorite', { song_id: id, song_title: title, action: adding ? 'add' : 'remove' });
+    setPop(true);
+    setTimeout(()=>setPop(false),300);
+  };
   return <span className={`heart${pop?' pop':''}`} onClick={click}>{on?'❤️':'🤍'}</span>;
 }
 
@@ -1678,7 +1685,7 @@ function SongRow({ song, favs, toggleFav }) {
       <div className="srow-info">
         <div className="srow-title" title={song.title}>{song.title}</div>
       </div>
-      <Heart id={song.id} favs={favs} toggle={toggleFav} />
+      <Heart id={song.id} title={song.title} favs={favs} toggle={toggleFav} />
     </div>
   );
 }
@@ -1686,6 +1693,19 @@ function SongRow({ song, favs, toggleFav }) {
 /* ══════ TAB: LIST ══════ */
 function TabList({ favs, toggleFav }) {
   const [q, setQ] = React.useState('');
+
+  React.useEffect(() => {
+    if (!q.trim()) return;
+    const timer = setTimeout(() => {
+      const lq = q.toLowerCase();
+      const count = ALL_SONGS.filter(s =>
+        s.title.toLowerCase().includes(lq) || String(s.id).includes(lq) || s.topic.toLowerCase().includes(lq)
+      ).length;
+      gtag('event', 'search', { search_term: q.trim(), result_count: count, search_location: 'list' });
+      if (count === 0) gtag('event', 'search_no_results', { search_term: q.trim(), search_location: 'list' });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [q]);
 
   const songs = React.useMemo(() => {
     if (!q.trim()) return ALL_SONGS;
@@ -1770,7 +1790,7 @@ function TabTopic({ favs, toggleFav }) {
       <div className="scroll">
         <div className="topic-grid">
           {TOPICS.map(t => (
-            <div key={t.id} className="tcard" style={{background: t.color}} onClick={() => setActive(t.id)}>
+            <div key={t.id} className="tcard" style={{background: t.color}} onClick={() => { setActive(t.id); gtag('event', 'view_topic', { topic_name: t.id }); }}>
               <div className="tcard-deco">{t.emoji}</div>
               <span className="tcard-em">{t.emoji}</span>
               <div className="tcard-name">{t.id}</div>
@@ -1797,6 +1817,15 @@ function TabSearch({ favs, toggleFav }) {
       s.topic.toLowerCase().includes(lq)
     );
   }, [q]);
+
+  React.useEffect(() => {
+    if (!q.trim()) return;
+    const timer = setTimeout(() => {
+      gtag('event', 'search', { search_term: q.trim(), result_count: results.length, search_location: 'search_tab' });
+      if (results.length === 0) gtag('event', 'search_no_results', { search_term: q.trim(), search_location: 'search_tab' });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [q, results.length]);
 
   const pick = v => {
     setQ(v);
@@ -1890,7 +1919,7 @@ function App() {
       </div>
       <div className="tabbar">
         {TABS.map(t => (
-          <div key={t.id} className={`tab${tab===t.id?' on':''}`} onClick={() => setTab(t.id)}>
+          <div key={t.id} className={`tab${tab===t.id?' on':''}`} onClick={() => { setTab(t.id); gtag('event', 'tab_switch', { tab_id: t.id, tab_label: t.label }); }}>
             <div className="tab-pip">{t.ic}</div>
             {t.label}
           </div>
