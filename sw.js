@@ -1,4 +1,4 @@
-const CACHE = 'nhac-be-v8.1';
+const CACHE = 'nhac-be-v8.2';
 const LOCAL = [
   '/be-list/',
   '/be-list/index.html',
